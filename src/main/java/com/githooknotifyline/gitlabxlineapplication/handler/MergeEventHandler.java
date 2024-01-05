@@ -1,7 +1,7 @@
 package com.githooknotifyline.gitlabxlineapplication.handler;
 
 import com.githooknotifyline.gitlabxlineapplication.handler.Adapter.GitLabEventAdapter;
-import com.githooknotifyline.gitlabxlineapplication.model.GitLabEvent;
+import com.githooknotifyline.gitlabxlineapplication.dto.GitLabEventDto;
 import com.githooknotifyline.gitlabxlineapplication.service.NotifyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class MergeEventHandler implements GitLabEventAdapter {
     }
 
     @Override
-    public ResponseEntity<?> handleEvent(String lineToken, GitLabEvent data, NotifyService notifyService) {
+    public ResponseEntity<?> handleEvent(String lineToken, GitLabEventDto data, NotifyService notifyService) {
         log.debug("Event={}","Merge");
         return notifyService.mergeRequestNotify(lineToken, data);
     }

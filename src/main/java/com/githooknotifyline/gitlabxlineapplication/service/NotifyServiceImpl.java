@@ -1,10 +1,11 @@
 package com.githooknotifyline.gitlabxlineapplication.service;
 
-import com.githooknotifyline.gitlabxlineapplication.controller.GitLabEventController;
-import com.githooknotifyline.gitlabxlineapplication.model.GitLabEvent;
-import com.githooknotifyline.gitlabxlineapplication.model.MessageFormat;
+import com.githooknotifyline.gitlabxlineapplication.dto.GitLabEventDto;
+import com.githooknotifyline.gitlabxlineapplication.service.messageformat.MessageFormatOld;
+import com.githooknotifyline.gitlabxlineapplication.service.messageformat.MergeMessageFormat;
+import com.githooknotifyline.gitlabxlineapplication.service.messageformat.MessageFormat;
+import com.githooknotifyline.gitlabxlineapplication.service.messageformat.PushMessageFormat;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -20,37 +21,36 @@ import java.net.URI;
 public class NotifyServiceImpl implements NotifyService {
 
     private final URI lineUrl = URI.create("https://notify-api.line.me/api/notify");
-    private final String contentType = "application/x-www-form-urlencoded";
-
+    private final String contentType = "application/x-www-form-urlencoded; charset=utf-8";
 
 
     @Override
-    public ResponseEntity<String> pushNotify(String lineToken, GitLabEvent content) {
+    public ResponseEntity<String> pushNotify(String lineToken, GitLabEventDto content) {
         log.info("##{} - handlerEvent Data={}",getClass().getSimpleName(),content.getAfter());
-        MessageFormat messageFormat = new MessageFormat();
-        String data = String.format("message=%s", messageFormat.pushFormat(content));
+        MessageFormat messageFormat = new PushMessageFormat();
+        String data = String.format("message=%s", messageFormat.getMessage(content));
         return this.httpPost(lineToken, data);
     }
 
     @Override
-    public ResponseEntity<String> pushTagNotify(String lineToken, GitLabEvent content) {
+    public ResponseEntity<String> pushTagNotify(String lineToken, GitLabEventDto content) {
         log.info("##{} - handlerEvent Data={}",getClass().getSimpleName(),content.getAfter());
-        MessageFormat messageFormat = new MessageFormat();
-        String data = String.format("message=%s", messageFormat.tagFormat(content));
+        MessageFormat messageFormat = new PushMessageFormat();
+        String data = String.format("message=%s", messageFormat.getMessage(content));
         return this.httpPost(lineToken, data);
     }
 
     @Override
-    public ResponseEntity<String> issueNotify(String lineToken, GitLabEvent content) {
-        MessageFormat messageFormat = new MessageFormat();
-        String data = String.format("message=%s", messageFormat.issueFormat(content));
+    public ResponseEntity<String> issueNotify(String lineToken, GitLabEventDto content) {
+        MessageFormatOld messageFormatOld = new MessageFormatOld();
+        String data = String.format("message=%s", messageFormatOld.issueFormat(content));
         return this.httpPost(lineToken, data);
     }
 
     @Override
-    public ResponseEntity<String> mergeRequestNotify(String lineToken, GitLabEvent content) {
-        MessageFormat messageFormat = new MessageFormat();
-        String data = String.format("message=%s", messageFormat.mergeFormat(content));
+    public ResponseEntity<String> mergeRequestNotify(String lineToken, GitLabEventDto content) {
+        MessageFormat messageFormat = new MergeMessageFormat();
+        String data = String.format("message=%s", messageFormat.getMessage(content));
         return this.httpPost(lineToken, data);
     }
 

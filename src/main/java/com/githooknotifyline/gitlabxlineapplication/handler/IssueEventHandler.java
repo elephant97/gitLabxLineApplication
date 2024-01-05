@@ -2,7 +2,7 @@ package com.githooknotifyline.gitlabxlineapplication.handler;
 
 
 import com.githooknotifyline.gitlabxlineapplication.handler.Adapter.GitLabEventAdapter;
-import com.githooknotifyline.gitlabxlineapplication.model.GitLabEvent;
+import com.githooknotifyline.gitlabxlineapplication.dto.GitLabEventDto;
 import com.githooknotifyline.gitlabxlineapplication.service.NotifyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class IssueEventHandler implements GitLabEventAdapter {
     }
 
     @Override
-    public ResponseEntity<?> handleEvent(String lineToken, GitLabEvent data, NotifyService notifyService) {
+    public ResponseEntity<?> handleEvent(String lineToken, GitLabEventDto data, NotifyService notifyService) {
         log.debug("Event={}","Issue");
         log.info("##{} - handlerEvent Data={}",getClass().getSimpleName(),data.getAfter());
         return notifyService.issueNotify(lineToken, data);
