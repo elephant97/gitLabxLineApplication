@@ -4,5 +4,5 @@
 Gitlab에서 User 이벤트에 따라 webhook을 통해 Line으로 해당 내용 메세지 전송 가능 하도록 서버 생성
 
 ### 참고
-* [open Source](https://github.com/sarawukl/gitlab-line-notify)
+* [open Source 참고](https://github.com/sarawukl/gitlab-line-notify)
 * [web hook Events](https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html)    
