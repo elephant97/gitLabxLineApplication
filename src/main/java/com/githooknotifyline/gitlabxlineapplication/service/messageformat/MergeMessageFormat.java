@@ -6,7 +6,7 @@ import com.githooknotifyline.gitlabxlineapplication.dto.ReviewerOrAssigneesDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MergeMessageFormat implements MessageFormat {
+public class MergeMessageFormat extends MessageFormatTemplate {
 
     /**
      * username, url에 대한 포맷이 달라 재정의
