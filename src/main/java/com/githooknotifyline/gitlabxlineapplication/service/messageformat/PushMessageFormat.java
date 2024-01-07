@@ -3,11 +3,10 @@ package com.githooknotifyline.gitlabxlineapplication.service.messageformat;
 import com.githooknotifyline.gitlabxlineapplication.dto.CommitDto;
 import com.githooknotifyline.gitlabxlineapplication.dto.GitLabEventDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PushMessageFormat implements MessageFormat {
+public class PushMessageFormat extends MessageFormatTemplate {
 
     @Override
     public String messageBody(GitLabEventDto data) {
