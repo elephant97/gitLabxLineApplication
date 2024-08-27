@@ -19,6 +19,9 @@ public class MergeEventHandler implements GitLabEventAdapter {
     @Override
     public ResponseEntity<?> handleEvent(String lineToken, GitLabEventDto data, NotifyService notifyService) {
         log.debug("Event={}","Merge");
+        if(data.getObjectAttribute().getState().equals("closed")){
+            throw new RuntimeException("closed state do nothing");
+        }
         return notifyService.mergeRequestNotify(lineToken, data);
     }
 }

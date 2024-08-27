@@ -13,8 +13,9 @@ public abstract class MessageFormatTemplate {
      */
     public StringBuilder messageHeader(GitLabEventDto data){
         StringBuilder header = new StringBuilder();
-        header.append(String.format("\n[%s *%s]\n",data.getUserUsername(),data.getEventName()));
-        header.append(String.format("WebUrl: %s\n\n",data.getProject().getWebUrl()));
+        header.append(String.format("\n📣%s📣\n",data.getEventName().toUpperCase()));
+        header.append(String.format("🧑🏻‍🦱%s\n\n",data.getUserName(),data.getEventName()));
+        header.append(String.format("🌐 %s\n\n",data.getProject().getWebUrl()));
 
         return header;
     }

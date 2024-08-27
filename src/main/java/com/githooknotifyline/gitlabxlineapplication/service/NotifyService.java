@@ -13,5 +13,9 @@ public interface NotifyService {
 
     ResponseEntity<String> mergeRequestNotify(String lineToken, GitLabEventDto content);
 
+    ResponseEntity<String> noteCommentNotify(String lineToken, GitLabEventDto content);
+
+    ResponseEntity<String> pipelineStatusNotify(String lineToken, GitLabEventDto content);
+
     ResponseEntity<String> httpPost(String lineToken, String data);
 }

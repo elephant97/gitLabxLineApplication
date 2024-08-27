@@ -22,9 +22,9 @@ public class MessageFormatOld {
         String projectName = content.getProject() != null ? content.getProject().getName() : "Unknown Project";
         String userName = content.getUserName() != null ? content.getUserName() : "Unknown User";
 
-        issue.append(String.format("\n  Project: %s", projectName));
+        issue.append(String.format("\n  ✅Project: %s", projectName));
         issue.append("\n  Event: Issue ");
-        issue.append(String.format("\n    User: %s", userName));
+        issue.append(String.format("\n    ✅User: %s", userName));
         // 추가적으로 필요한 정보는 여기에 추가
         return issue.toString();
     }
@@ -36,10 +36,10 @@ public class MessageFormatOld {
         String userName = content.getUserName() != null ? content.getUserName() : "Unknown User";
         String tagReference = content.getRef() != null ? content.getRef().replace("refs/tags/", "") : "Unknown Tag Reference";
 
-        gitEvent.append(String.format("\n  Project: %s", projectName));
-        gitEvent.append(String.format("\n  Event: %s", eventKind));
-        gitEvent.append(String.format("\n  User: %s", userName));
-        gitEvent.append(String.format("\n  Tag Reference: %s", tagReference));
+        gitEvent.append(String.format("\n  ✅Project: %s", projectName));
+        gitEvent.append(String.format("\n  ✅Event: %s", eventKind));
+        gitEvent.append(String.format("\n  ✅User: %s", userName));
+        gitEvent.append(String.format("\n  ✅Tag Reference: %s", tagReference));
         return gitEvent.toString();
     }
 }

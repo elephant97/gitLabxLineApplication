@@ -35,12 +35,18 @@ public class GitLabEventDto {
     @JsonProperty("project_id")
     private Integer projectId;
     private ProjectDto project;
+    // for push or merge events
     private List<CommitDto> commits;
     @JsonProperty("total_commits_count")
     private Integer totalCommitsCount;
     private RepositoryDto repository;
     @JsonProperty("object_attributes")
     private ObjectAttributeDto objectAttribute;
+    // for not events
+    private CommitDto commit;
+    private String title;
+    // for pipeline events
+    private List<BuildDto> builds;
     private List<ReviewerOrAssigneesDto> assignees;
     private List<ReviewerOrAssigneesDto> reviewers;
 }

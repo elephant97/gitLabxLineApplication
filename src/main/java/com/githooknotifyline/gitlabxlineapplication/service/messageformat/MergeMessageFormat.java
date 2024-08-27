@@ -4,6 +4,7 @@ import com.githooknotifyline.gitlabxlineapplication.dto.GitLabEventDto;
 import com.githooknotifyline.gitlabxlineapplication.dto.ReviewerOrAssigneesDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MergeMessageFormat extends MessageFormatTemplate {
@@ -15,11 +16,19 @@ public class MergeMessageFormat extends MessageFormatTemplate {
     public StringBuilder messageHeader(GitLabEventDto data) {
         StringBuilder header = new StringBuilder();
         //Merge에서는 user_username이 아닌 username을 사용해야함
-        header.append(String.format("\n[ %s *%s ]\n\n",data.getUser().getUsername(),data.getEventType()));
-        header.append(String.format("WebUrl: %s\n\n",data.getObjectAttribute().getUrl()));
+        header.append(String.format("\n📣%s📣\n",data.getEventType().toUpperCase()));
+        header.append(String.format("[%s ▶️ %s]\n"
+                ,data.getObjectAttribute().getSourceBranch()
+                ,data.getObjectAttribute().getTargetBranch()));
+        header.append(String.format("🧑🏻‍🦱%s\n",data.getUser().getName()));
+        header.append(String.format("✅MR State\n[%s]\n\n", Optional.ofNullable(data.getObjectAttribute().getAction())
+                        .map(String::toUpperCase)
+                        .orElse("")));
+        header.append(String.format("🌐 %s\n\n",data.getObjectAttribute().getUrl()));
 
         return header;
     }
+
 
     /** Merge Request Message Format
      * Reviewers: who, who ..
@@ -31,12 +40,10 @@ public class MergeMessageFormat extends MessageFormatTemplate {
     public String messageBody(GitLabEventDto data) {
         StringBuilder body = new StringBuilder();
 
-        body.append(getReviewers(data.getReviewers()));
+        body.append(getReviewers(data.getReviewers())+"\n");
         body.append(getAssignees(data.getAssignees()));
-        body.append(String.format("* merge flow: [%s -> %s]\n"
-                ,data.getObjectAttribute().getSourceBranch()
-                ,data.getObjectAttribute().getTargetBranch()));
-        body.append(String.format("message: %s",data.getObjectAttribute().getTitle()));
+
+        body.append(String.format("\n📬Message:\n %s",data.getObjectAttribute().getTitle()));
 
         return body.toString();
     }
@@ -44,26 +51,26 @@ public class MergeMessageFormat extends MessageFormatTemplate {
     public String getReviewers(List<ReviewerOrAssigneesDto> reviewerList){
 
         if (reviewerList == null || reviewerList.isEmpty()) {
-            return"* Reviewers: None";
+            return"👁️Reviewers: None";
         }
 
         String reviewers = reviewerList.stream()
-                .map(ReviewerOrAssigneesDto::getUsername)
+                .map(ReviewerOrAssigneesDto::getName)
                 .collect(Collectors.joining(", "));
 
-        return String.format("* Reviewers: %s\n",reviewers);
+        return String.format("👁️Reviewers: %s\n",reviewers);
     }
 
     public String getAssignees(List<ReviewerOrAssigneesDto> AssigneeList){
 
         if (AssigneeList == null || AssigneeList.isEmpty()) {
-            return"* Assignees: None";
+            return"🌱Assignees: None";
         }
 
         String reviewers = AssigneeList.stream()
-                .map(ReviewerOrAssigneesDto::getUsername)
+                .map(ReviewerOrAssigneesDto::getName)
                 .collect(Collectors.joining(","));
 
-        return String.format("* Assignees: %s\n",reviewers);
+        return String.format("🌱Assignees: %s\n",reviewers);
     }
 }

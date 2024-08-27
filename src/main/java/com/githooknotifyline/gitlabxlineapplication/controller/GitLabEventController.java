@@ -26,7 +26,7 @@ public class GitLabEventController {
     public ResponseEntity<?> getNotify(@RequestHeader(value = "X-Gitlab-Token") String lineToken,
                                        @RequestHeader(value = "X-Gitlab-Event") String gitLabEvent,
                                        @RequestBody GitLabEventDto data) throws InvalidHeaderException {
-        log.info(" handlerEvent event={}",gitLabEvent);
+        log.info(" handlerEvent event={}",lineToken);
         log.info("##{} - handlerEvent Data={}",getClass().getSimpleName(),data.getAfter());
         return dispatcher.dispatch(gitLabEvent, lineToken, data, notifyService);
     }
